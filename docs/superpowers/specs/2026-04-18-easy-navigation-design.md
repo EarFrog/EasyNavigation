@@ -120,9 +120,11 @@ The first release intentionally excludes:
 
 ## Verification
 
-Primary verification for the repository is a successful example app build:
+Primary verification for the repository is installing the example app's local HAR dependency, then running a successful example app build:
 
 ```bash
+cd example && ohpm install
+cd ..
 hvigorw assembleHap --mode module -p module=example@default -p product=default -p buildMode=debug --no-daemon
 ```
 

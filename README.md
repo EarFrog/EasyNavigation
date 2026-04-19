@@ -49,9 +49,13 @@ The example app verifies:
 
 ## Build
 
-Set `DEVECO_SDK_HOME` to your local DevEco SDK, then run:
+Set `DEVECO_SDK_HOME` to your local DevEco SDK, install the local HAR dependency, then run:
 
 ```powershell
+Set-Location -LiteralPath 'D:\code\EasyNavigation\example'
+& 'D:\IDEA\DevEco Studio\tools\ohpm\bin\ohpm.bat' install
+
+Set-Location -LiteralPath 'D:\code\EasyNavigation'
 $env:DEVECO_SDK_HOME='D:\IDEA\DevEco Studio\sdk'
 & 'D:\IDEA\DevEco Studio\tools\hvigor\bin\hvigorw.bat' assembleHap --mode module -p module=example@default -p product=default -p buildMode=debug --no-daemon
 ```

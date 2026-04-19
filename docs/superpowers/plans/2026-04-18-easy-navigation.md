@@ -43,6 +43,8 @@
 Primary build verification:
 
 ```bash
+cd example && ohpm install
+cd ..
 hvigorw assembleHap --mode module -p module=example@default -p product=default -p buildMode=debug --no-daemon
 ```
 
