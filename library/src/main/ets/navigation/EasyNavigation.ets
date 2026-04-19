@@ -33,25 +33,31 @@ export struct EasyNavigation {
 
     @Builder
     private registeredRoute(name: string, param?: Object) {
-        NavigationManager.getRouteBuilder(name)?.builder(this.activePayload(name, param));
+        NavDestination() {
+            NavigationManager.getRouteBuilder(name)?.builder(this.activePayload(name, param));
+        }
+        .hideTitleBar(true)
     }
 
     @Builder
     private unknownRoute(name: string) {
-        Column({ space: 12 }) {
-            Text('Unknown Route')
-                .fontSize(24)
-                .fontWeight(FontWeight.Bold)
+        NavDestination() {
+            Column({ space: 12 }) {
+                Text('Unknown Route')
+                    .fontSize(24)
+                    .fontWeight(FontWeight.Bold)
 
-            Text(name)
-                .fontSize(14)
-                .fontColor('#6B7280')
+                Text(name)
+                    .fontSize(14)
+                    .fontColor('#6B7280')
+            }
+            .width('100%')
+            .height('100%')
+            .padding(24)
+            .justifyContent(FlexAlign.Center)
+            .alignItems(HorizontalAlign.Center)
         }
-        .width('100%')
-        .height('100%')
-        .padding(24)
-        .justifyContent(FlexAlign.Center)
-        .alignItems(HorizontalAlign.Center)
+        .hideTitleBar(true)
     }
 
     @Builder
@@ -67,7 +73,7 @@ export struct EasyNavigation {
         Navigation(this.pathStack) {}
             .hideNavBar(true)
             .navDestination(this.destinationBuilder)
-            .onAppear(() => {
+            .onAttach(() => {
                 NavigationManager.ensureRoot();
             })
             .width('100%')
