@@ -11,10 +11,29 @@ export interface EasyNavTitle {
     options?: NavigationTitleOptions;
 }
 
+export interface EasyNavigationOptions {
+    hideNavBar?: boolean;
+    title?: EasyNavTitle;
+    menus?: Array<NavigationMenuItem> | WrappedBuilder<[]>;
+    toolbar?: Array<ToolbarItem> | WrappedBuilder<[]>;
+    enableToolBarAdaptation?: boolean;
+    onTitleModeChange?: (titleMode: NavigationTitleMode) => void;
+    onNavBarStateChange?: (isVisible: boolean) => void;
+    onNavigationModeChange?: (mode: NavigationMode) => void;
+}
+
 export interface EasyNavDestinationOptions {
     hideTitleBar?: boolean;
     mode?: NavDestinationMode;
     title?: EasyNavTitle;
+    onWillAppear?: () => void;
+    onAppear?: () => void;
+    onWillShow?: () => void;
+    onShown?: () => void;
+    onWillHide?: () => void;
+    onHidden?: () => void;
+    onWillDisappear?: () => void;
+    onDisAppear?: () => void;
     onReady?: (context: NavDestinationContext) => void;
     onBackPressed?: () => boolean;
 }

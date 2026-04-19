@@ -1,10 +1,11 @@
 import { NavigationManager } from './NavigationManager';
-import { EasyNavDestinationOptions, RoutePayload, RouteRecord } from './RouteTypes';
+import { EasyNavDestinationOptions, EasyNavigationOptions, RoutePayload, RouteRecord } from './RouteTypes';
 
 @Component
 export struct EasyNavigation {
     @Require routes: RouteRecord[];
     @Require root: string;
+    options?: EasyNavigationOptions;
 
     private readonly pathStack: NavPathStack = new NavPathStack();
 
@@ -42,6 +43,30 @@ export struct EasyNavigation {
             options?.title?.value.builder :
             options?.title?.value,
             options?.title?.options)
+        .onWillAppear(() => {
+            options?.onWillAppear?.();
+        })
+        .onAppear(() => {
+            options?.onAppear?.();
+        })
+        .onWillShow(() => {
+            options?.onWillShow?.();
+        })
+        .onShown(() => {
+            options?.onShown?.();
+        })
+        .onWillHide(() => {
+            options?.onWillHide?.();
+        })
+        .onHidden(() => {
+            options?.onHidden?.();
+        })
+        .onWillDisappear(() => {
+            options?.onWillDisappear?.();
+        })
+        .onDisAppear(() => {
+            options?.onDisAppear?.();
+        })
         .onReady((context: NavDestinationContext) => {
             options?.onReady?.(context);
         })
@@ -82,8 +107,28 @@ export struct EasyNavigation {
 
     build() {
         Navigation(this.pathStack) {}
-            .hideNavBar(true)
+            .hideNavBar(this.options?.hideNavBar ?? true)
+            .title(this.options?.title?.value instanceof WrappedBuilder ?
+                this.options.title.value.builder :
+                this.options?.title?.value,
+                this.options?.title?.options)
+            .menus(this.options?.menus instanceof WrappedBuilder ?
+                this.options.menus.builder :
+                this.options?.menus)
+            .toolbarConfiguration(this.options?.toolbar instanceof WrappedBuilder ?
+                this.options.toolbar.builder :
+                this.options?.toolbar)
             .navDestination(this.destinationBuilder)
+            .enableToolBarAdaptation(this.options?.enableToolBarAdaptation)
+            .onTitleModeChange((titleMode: NavigationTitleMode) => {
+                this.options?.onTitleModeChange?.(titleMode);
+            })
+            .onNavBarStateChange((isVisible: boolean) => {
+                this.options?.onNavBarStateChange?.(isVisible);
+            })
+            .onNavigationModeChange((mode: NavigationMode) => {
+                this.options?.onNavigationModeChange?.(mode);
+            })
             .onAttach(() => {
                 NavigationManager.ensureRoot();
             })

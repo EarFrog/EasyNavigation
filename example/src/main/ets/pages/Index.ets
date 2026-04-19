@@ -1,5 +1,6 @@
 import {
     EasyNavDestinationOptions,
+    EasyNavigationOptions,
     EasyNavigation,
     NavigationManager,
     RoutePayload,
@@ -107,6 +108,43 @@ function buildResultRoute(payload: RoutePayload<Object>) {
     ResultPage({ route: payload });
 }
 
+@Builder
+function buildDialogTitle() {
+    Row({ space: 8 }) {
+        Text('Result')
+            .fontSize(18)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#172033')
+
+        Text('custom title')
+            .fontSize(12)
+            .fontColor('#5B6576')
+    }
+    .height(48)
+    .alignItems(VerticalAlign.Center)
+}
+
+const APP_NAVIGATION_OPTIONS: EasyNavigationOptions = {
+    hideNavBar: false,
+    title: {
+        value: 'EasyNavigation'
+    },
+    menus: [
+        {
+            value: 'Home',
+            action: () => {
+                NavigationManager.popTo('home');
+            }
+        }
+    ],
+    onTitleModeChange: (titleMode: NavigationTitleMode) => {
+        console.info(`EasyNavigation Demo: title mode changed ${titleMode}`);
+    },
+    onNavBarStateChange: (isVisible: boolean) => {
+        console.info(`EasyNavigation Demo: nav bar visible ${isVisible}`);
+    }
+};
+
 const ZH_DETAIL_DESTINATION: EasyNavDestinationOptions = {
     hideTitleBar: false,
     mode: NavDestinationMode.STANDARD,
@@ -115,6 +153,12 @@ const ZH_DETAIL_DESTINATION: EasyNavDestinationOptions = {
     },
     onReady: (_context: NavDestinationContext) => {
         console.info('EasyNavigation Demo: zh detail NavDestination onReady');
+    },
+    onShown: () => {
+        console.info('EasyNavigation Demo: zh detail NavDestination onShown');
+    },
+    onHidden: () => {
+        console.info('EasyNavigation Demo: zh detail NavDestination onHidden');
     },
     onBackPressed: () => false
 };
@@ -128,12 +172,21 @@ const EN_DETAIL_DESTINATION: EasyNavDestinationOptions = {
     onReady: (_context: NavDestinationContext) => {
         console.info('EasyNavigation Demo: en detail NavDestination onReady');
     },
+    onShown: () => {
+        console.info('EasyNavigation Demo: en detail NavDestination onShown');
+    },
+    onHidden: () => {
+        console.info('EasyNavigation Demo: en detail NavDestination onHidden');
+    },
     onBackPressed: () => false
 };
 
 const ZH_RESULT_DESTINATION: EasyNavDestinationOptions = {
-    hideTitleBar: true,
+    hideTitleBar: false,
     mode: NavDestinationMode.DIALOG,
+    title: {
+        value: wrapBuilder(buildDialogTitle)
+    },
     onReady: (_context: NavDestinationContext) => {
         console.info('EasyNavigation Demo: zh result dialog NavDestination onReady');
     },
@@ -141,8 +194,11 @@ const ZH_RESULT_DESTINATION: EasyNavDestinationOptions = {
 };
 
 const EN_RESULT_DESTINATION: EasyNavDestinationOptions = {
-    hideTitleBar: true,
+    hideTitleBar: false,
     mode: NavDestinationMode.DIALOG,
+    title: {
+        value: wrapBuilder(buildDialogTitle)
+    },
     onReady: (_context: NavDestinationContext) => {
         console.info('EasyNavigation Demo: en result dialog NavDestination onReady');
     },
@@ -168,7 +224,8 @@ struct Index {
         Column() {
             EasyNavigation({
                 routes: APP_ROUTES,
-                root: 'home'
+                root: 'home',
+                options: APP_NAVIGATION_OPTIONS
             });
         }
         .width('100%')
