@@ -3,17 +3,20 @@ import { NavigationManager, RoutePayload } from '@easy/navigation';
 interface DetailParams {
     id: string;
     from: string;
+    locale: string;
 }
 
 interface SecondDetailParams {
     id: string;
     parentId: string;
+    locale: string;
 }
 
 interface ResultRouteParams {
     source: string;
     mode: string;
     parentId?: string;
+    locale: string;
 }
 
 @Component
@@ -22,6 +25,14 @@ export struct Detail {
 
     private detailParams(): DetailParams | undefined {
         return this.route?.params as DetailParams | undefined;
+    }
+
+    private isZh(): boolean {
+        return this.detailParams()?.locale !== 'en';
+    }
+
+    private routeName(name: string): string {
+        return `${this.isZh() ? 'zh' : 'en'}-${name}`;
     }
 
     @Builder
@@ -36,12 +47,14 @@ export struct Detail {
 
     build() {
         Column({ space: 16 }) {
-            Text('Detail Route')
+            Text(this.isZh() ? '详情页内容区' : 'Detail Content')
                 .fontSize(26)
                 .fontWeight(FontWeight.Bold)
                 .fontColor('#172033')
 
-            Text('This page validates the first-level push and offers both a second-level push and a replace flow.')
+            Text(this.isZh()
+                ? '这个页面用于验证一级 push、系统标题栏、onReady 回调和返回拦截。顶部标题栏应显示“详情页（系统标题栏）”。'
+                : 'This page validates first-level push, the system title bar, onReady, and back handling. The title bar should read "Detail (System Title Bar)".')
                 .fontSize(13)
                 .lineHeight(20)
                 .fontColor('#5B6576')
@@ -54,24 +67,26 @@ export struct Detail {
                 .fontSize(14)
                 .fontColor('#5B6576')
 
-            this.actionButton('Open Second Detail', '#2563EB', () => {
+            this.actionButton(this.isZh() ? '打开二级详情页' : 'Open Second Detail', '#2563EB', () => {
                 const params: SecondDetailParams = {
                     id: 'detail-002',
-                    parentId: this.detailParams()?.id ?? 'unknown'
+                    parentId: this.detailParams()?.id ?? 'unknown',
+                    locale: this.isZh() ? 'zh' : 'en'
                 };
-                NavigationManager.push('second-detail', params);
+                NavigationManager.push(this.routeName('second-detail'), params);
             })
 
-            this.actionButton('Replace With Result Page', '#7C3AED', () => {
+            this.actionButton(this.isZh() ? '替换为结果弹窗' : 'Replace With Result Dialog', '#7C3AED', () => {
                 const params: ResultRouteParams = {
-                    source: 'detail-replace',
-                    mode: 'replace',
-                    parentId: this.detailParams()?.id
+                    source: this.isZh() ? '详情页' : 'Detail',
+                    mode: this.isZh() ? '替换' : 'replace',
+                    parentId: this.detailParams()?.id,
+                    locale: this.isZh() ? 'zh' : 'en'
                 };
-                NavigationManager.replace('result-page', params);
+                NavigationManager.replace(this.routeName('result-page'), params);
             })
 
-            this.actionButton('Back', '#111827', () => {
+            this.actionButton(this.isZh() ? '返回' : 'Back', '#111827', () => {
                 NavigationManager.pop();
             })
         }

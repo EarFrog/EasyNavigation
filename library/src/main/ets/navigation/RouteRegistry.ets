@@ -20,7 +20,8 @@ export class RouteRegistry {
         }
         this.routeMap.set(name, {
             name,
-            builder: route.builder
+            builder: route.builder,
+            destination: route.destination
         });
         console.info(`${TAG}: register route ${name}`);
     }

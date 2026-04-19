@@ -1,4 +1,10 @@
-import { NavigationInitOptions, RouteBuilder, RoutePayload } from './RouteTypes';
+import {
+    EasyNavDestinationOptions,
+    NavigationInitOptions,
+    RouteBuilder,
+    RoutePayload,
+    RouteRecord
+} from './RouteTypes';
 import { RouteRegistry } from './RouteRegistry';
 
 const TAG = 'EasyNavigation';
@@ -47,8 +53,16 @@ class NavigationManagerImpl {
         }, false);
     }
 
+    getRoute(routeName: string): RouteRecord | undefined {
+        return this.registry.get(routeName);
+    }
+
     getRouteBuilder(routeName: string): RouteBuilder | undefined {
-        return this.registry.get(routeName)?.builder;
+        return this.getRoute(routeName)?.builder;
+    }
+
+    getRouteDestinationOptions(routeName: string): EasyNavDestinationOptions | undefined {
+        return this.getRoute(routeName)?.destination;
     }
 
     setCurrentRoute(payload: RoutePayload<Object> | undefined): void {

@@ -12,11 +12,27 @@ A standalone HarmonyOS component repository that packages a lightweight, route-t
 ## Library API
 
 ```ts
-import { EasyNavigation, NavigationManager, RoutePayload, RouteRecord, createRoute } from '@easy/navigation'
+import {
+  EasyNavDestinationOptions,
+  EasyNavigation,
+  NavigationManager,
+  RoutePayload,
+  RouteRecord,
+  createRoute
+} from '@easy/navigation'
+
+const detailDestination: EasyNavDestinationOptions = {
+  hideTitleBar: false,
+  mode: NavDestinationMode.STANDARD,
+  title: {
+    value: 'Detail'
+  },
+  onBackPressed: () => false
+}
 
 const routes: RouteRecord[] = [
   createRoute('home', wrapBuilder(buildHomeRoute)),
-  createRoute('detail', wrapBuilder(buildDetailRoute)),
+  createRoute('detail', wrapBuilder(buildDetailRoute), detailDestination),
   createRoute('second-detail', wrapBuilder(buildSecondDetailRoute)),
   createRoute('result-page', wrapBuilder(buildResultRoute))
 ]
@@ -40,12 +56,16 @@ const result = await NavigationManager.pushForResult<ResultPayload>('result-page
 
 ## Example Flows
 
-The example app verifies:
-- `Home -> Detail`
-- `Detail -> SecondDetail`
-- `SecondDetail -> popTo('home')`
-- `Home -> ResultPage -> pop(result)`
-- `Detail -> replace('result-page')`
+The example app provides both a Chinese demo and an English demo. The root page lets you choose `中文示例` or `English Demo`.
+
+Each language version verifies:
+- demo home -> detail
+- detail -> second detail
+- second detail -> `popTo()` back to that language's demo home
+- demo home -> result dialog -> `pop(result)`
+- detail -> `replace()` with result dialog
+- route-level `NavDestination` title bar configuration
+- route-level custom `NavTitle` for dialog pages
 
 ## Build
 

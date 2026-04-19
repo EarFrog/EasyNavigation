@@ -19,4 +19,4 @@ BuildProfile.ets
 **/BuildProfile.ets
 /tools/certs/local/*
 !/tools/certs/local/.gitkeep
-/docs
+/docs/*

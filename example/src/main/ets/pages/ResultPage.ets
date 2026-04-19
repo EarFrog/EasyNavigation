@@ -4,6 +4,7 @@ interface ResultRouteParams {
     source: string;
     mode: string;
     parentId?: string;
+    locale: string;
 }
 
 interface ResultRouteResult {
@@ -20,9 +21,13 @@ export struct ResultPage {
         return this.route?.params as ResultRouteParams | undefined;
     }
 
+    private isZh(): boolean {
+        return this.resultParams()?.locale !== 'en';
+    }
+
     private returnResult(): void {
         const result: ResultRouteResult = {
-            selection: 'approved',
+            selection: this.isZh() ? '已确认' : 'approved',
             source: this.resultParams()?.source ?? 'unknown',
             confirmed: true
         };
@@ -41,12 +46,14 @@ export struct ResultPage {
 
     build() {
         Column({ space: 16 }) {
-            Text('Result Page')
+            Text(this.isZh() ? '结果弹窗内容区' : 'Result Dialog Content')
                 .fontSize(26)
                 .fontWeight(FontWeight.Bold)
                 .fontColor('#172033')
 
-            Text('This page is shared by the replace flow and the awaited pushForResult flow.')
+            Text(this.isZh()
+                ? '这个页面用于验证 NavDestinationMode.DIALOG、自定义 NavTitle、replace，以及 pushForResult 返回结果。'
+                : 'This page validates NavDestinationMode.DIALOG, custom NavTitle, replace, and pushForResult results.')
                 .fontSize(13)
                 .lineHeight(20)
                 .fontColor('#5B6576')
@@ -67,11 +74,11 @@ export struct ResultPage {
                 .fontSize(14)
                 .fontColor('#5B6576')
 
-            this.actionButton('Return Confirmed Result', '#0F766E', () => {
+            this.actionButton(this.isZh() ? '返回确认结果' : 'Return Confirmed Result', '#0F766E', () => {
                 this.returnResult();
             })
 
-            this.actionButton('Back Without Result', '#111827', () => {
+            this.actionButton(this.isZh() ? '不带结果返回' : 'Back Without Result', '#111827', () => {
                 NavigationManager.pop();
             })
         }

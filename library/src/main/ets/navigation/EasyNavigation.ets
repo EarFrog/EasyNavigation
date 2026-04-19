@@ -1,5 +1,5 @@
 import { NavigationManager } from './NavigationManager';
-import { RoutePayload, RouteRecord } from './RouteTypes';
+import { EasyNavDestinationOptions, RoutePayload, RouteRecord } from './RouteTypes';
 
 @Component
 export struct EasyNavigation {
@@ -32,11 +32,22 @@ export struct EasyNavigation {
     }
 
     @Builder
-    private registeredRoute(name: string, param?: Object) {
+    private registeredRoute(name: string, param?: Object, options?: EasyNavDestinationOptions) {
         NavDestination() {
             NavigationManager.getRouteBuilder(name)?.builder(this.activePayload(name, param));
         }
-        .hideTitleBar(true)
+        .hideTitleBar(options?.hideTitleBar ?? true)
+        .mode(options?.mode ?? NavDestinationMode.STANDARD)
+        .title(options?.title?.value instanceof WrappedBuilder ?
+            options?.title?.value.builder :
+            options?.title?.value,
+            options?.title?.options)
+        .onReady((context: NavDestinationContext) => {
+            options?.onReady?.(context);
+        })
+        .onBackPressed(() => {
+            return options?.onBackPressed?.() ?? false;
+        })
     }
 
     @Builder
@@ -63,7 +74,7 @@ export struct EasyNavigation {
     @Builder
     private destinationBuilder(name: string, param?: Object) {
         if (this.hasRoute(name)) {
-            this.registeredRoute(name, param);
+            this.registeredRoute(name, param, NavigationManager.getRouteDestinationOptions(name));
         } else {
             this.unknownRoute(name);
         }

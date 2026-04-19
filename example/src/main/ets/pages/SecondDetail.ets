@@ -3,6 +3,7 @@ import { NavigationManager, RoutePayload } from '@easy/navigation';
 interface SecondDetailParams {
     id: string;
     parentId: string;
+    locale: string;
 }
 
 @Component
@@ -11,6 +12,14 @@ export struct SecondDetail {
 
     private detailParams(): SecondDetailParams | undefined {
         return this.route?.params as SecondDetailParams | undefined;
+    }
+
+    private isZh(): boolean {
+        return this.detailParams()?.locale !== 'en';
+    }
+
+    private homeRoute(): string {
+        return this.isZh() ? 'zh-home' : 'en-home';
     }
 
     @Builder
@@ -25,12 +34,14 @@ export struct SecondDetail {
 
     build() {
         Column({ space: 16 }) {
-            Text('Second Detail Route')
+            Text(this.isZh() ? '二级详情页' : 'Second Detail')
                 .fontSize(26)
                 .fontWeight(FontWeight.Bold)
                 .fontColor('#172033')
 
-            Text('This page validates the second-level push and a direct popTo back to the home route.')
+            Text(this.isZh()
+                ? '这个页面用于验证二级 push，以及直接 popTo 回到首页。'
+                : 'This page validates second-level push and direct popTo back to the demo home.')
                 .fontSize(13)
                 .lineHeight(20)
                 .fontColor('#5B6576')
@@ -43,12 +54,12 @@ export struct SecondDetail {
                 .fontSize(14)
                 .fontColor('#5B6576')
 
-            this.actionButton('Back', '#111827', () => {
+            this.actionButton(this.isZh() ? '返回上一页' : 'Back', '#111827', () => {
                 NavigationManager.pop();
             })
 
-            this.actionButton('Pop To Home', '#EA580C', () => {
-                NavigationManager.popTo('home');
+            this.actionButton(this.isZh() ? '直接返回首页' : 'Pop To Demo Home', '#EA580C', () => {
+                NavigationManager.popTo(this.homeRoute());
             })
         }
         .width('100%')
