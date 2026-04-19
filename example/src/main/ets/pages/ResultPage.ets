@@ -44,8 +44,36 @@ export struct ResultPage {
             .onClick(onPress)
     }
 
+    @Builder
+    private dialogHeader() {
+        Row({ space: 12 }) {
+            Button() {
+                Text('<')
+                    .fontSize(18)
+                    .fontColor('#172033')
+            }
+            .type(ButtonType.Circle)
+            .width(40)
+            .height(40)
+            .backgroundColor('#E2E8F0')
+            .onClick(() => {
+                NavigationManager.pop();
+            })
+
+            Text(this.isZh() ? '结果弹窗' : 'Result Dialog')
+                .fontSize(20)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#0F766E')
+                .maxLines(1)
+        }
+        .width('100%')
+        .alignItems(VerticalAlign.Center)
+    }
+
     build() {
         Column({ space: 16 }) {
+            this.dialogHeader()
+
             Text(this.isZh() ? '结果弹窗内容区' : 'Result Dialog Content')
                 .fontSize(26)
                 .fontWeight(FontWeight.Bold)
@@ -86,7 +114,7 @@ export struct ResultPage {
         .height('100%')
         .padding(24)
         .backgroundColor('#EEF2F8')
-        .justifyContent(FlexAlign.Center)
+        .justifyContent(FlexAlign.Start)
         .alignItems(HorizontalAlign.Start)
     }
 }

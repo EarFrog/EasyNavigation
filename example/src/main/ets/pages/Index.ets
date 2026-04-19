@@ -107,36 +107,6 @@ function buildResultRoute(payload: RoutePayload<Object>) {
     ResultPage({ route: payload });
 }
 
-@Builder
-function buildZhResultTitle() {
-    Row({ space: 8 }) {
-        Text('结果弹窗')
-            .fontSize(18)
-            .fontWeight(FontWeight.Bold)
-            .fontColor('#0F766E')
-
-        Text('自定义标题')
-            .fontSize(12)
-            .fontColor('#64748B')
-    }
-    .alignItems(VerticalAlign.Center)
-}
-
-@Builder
-function buildEnResultTitle() {
-    Row({ space: 8 }) {
-        Text('Result Dialog')
-            .fontSize(18)
-            .fontWeight(FontWeight.Bold)
-            .fontColor('#0F766E')
-
-        Text('Custom Title')
-            .fontSize(12)
-            .fontColor('#64748B')
-    }
-    .alignItems(VerticalAlign.Center)
-}
-
 const ZH_DETAIL_DESTINATION: EasyNavDestinationOptions = {
     hideTitleBar: false,
     mode: NavDestinationMode.STANDARD,
@@ -162,11 +132,8 @@ const EN_DETAIL_DESTINATION: EasyNavDestinationOptions = {
 };
 
 const ZH_RESULT_DESTINATION: EasyNavDestinationOptions = {
-    hideTitleBar: false,
+    hideTitleBar: true,
     mode: NavDestinationMode.DIALOG,
-    title: {
-        value: wrapBuilder(buildZhResultTitle)
-    },
     onReady: (_context: NavDestinationContext) => {
         console.info('EasyNavigation Demo: zh result dialog NavDestination onReady');
     },
@@ -174,11 +141,8 @@ const ZH_RESULT_DESTINATION: EasyNavDestinationOptions = {
 };
 
 const EN_RESULT_DESTINATION: EasyNavDestinationOptions = {
-    hideTitleBar: false,
+    hideTitleBar: true,
     mode: NavDestinationMode.DIALOG,
-    title: {
-        value: wrapBuilder(buildEnResultTitle)
-    },
     onReady: (_context: NavDestinationContext) => {
         console.info('EasyNavigation Demo: en result dialog NavDestination onReady');
     },
