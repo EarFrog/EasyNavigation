@@ -1,0 +1,9 @@
+{
+  "name": "@easy/navigation",
+  "version": "1.0.0",
+  "description": "Lightweight route-table navigation for HarmonyOS Navigation.",
+  "main": "Index.ets",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}

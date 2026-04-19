@@ -1,0 +1,11 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "EasyNavigation example app",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "@easy/navigation": "file:../library"
+  }
+}

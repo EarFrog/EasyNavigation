@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "EasyNavigation example module"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "EasyNavigation example ability"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "EasyNavigation"
+    }
+  ]
+}
