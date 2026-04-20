@@ -102,30 +102,4 @@ NavigationManager.popTo('home')
 const result = await NavigationManager.pushForResult<ResultPayload>('result-page', { source: 'home' })
 ```
 
-## Example Flows
 
-The example app provides both a Chinese demo and an English demo. The root page lets you choose `中文示例` or `English Demo`.
-
-Each language version verifies:
-- demo home -> detail
-- detail -> second detail
-- second detail -> `popTo()` back to that language's demo home
-- demo home -> result dialog -> `pop(result)`
-- detail -> `replace()` with result dialog
-- route-level `NavDestination` title bar configuration
-- route-level custom `NavTitle` for dialog pages
-- container-level `Navigation` title and menu configuration
-- route-level `NavDestination` shown/hidden lifecycle callbacks
-
-## Build
-
-Set `DEVECO_SDK_HOME` to your local DevEco SDK, install the local HAR dependency, then run:
-
-```powershell
-Set-Location -LiteralPath 'D:\code\EasyNavigation\example'
-& 'D:\IDEA\DevEco Studio\tools\ohpm\bin\ohpm.bat' install
-
-Set-Location -LiteralPath 'D:\code\EasyNavigation'
-$env:DEVECO_SDK_HOME='D:\IDEA\DevEco Studio\sdk'
-& 'D:\IDEA\DevEco Studio\tools\hvigor\bin\hvigorw.bat' assembleHap --mode module -p module=example@default -p product=default -p buildMode=debug --no-daemon
-```
