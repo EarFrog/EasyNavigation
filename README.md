@@ -20,7 +20,7 @@ import {
   RoutePayload,
   RouteRecord,
   createRoute
-} from '@easy/navigation'
+} from '@erafrog/easynavigation'
 
 const detailDestination: EasyNavDestinationOptions = {
   hideTitleBar: false,

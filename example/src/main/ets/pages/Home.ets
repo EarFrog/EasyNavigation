@@ -1,4 +1,4 @@
-import { NavigationManager, RoutePayload } from '@easy/navigation';
+import { NavigationManager, RoutePayload } from '@erafrog/easynavigation';
 
 interface DetailParams {
     id: string;
@@ -41,16 +41,20 @@ export struct Home {
             mode: this.isZh() ? '等待返回' : 'await-result',
             locale: this.isZh() ? 'zh' : 'en'
         };
-        const result = await NavigationManager.pushForResult<ResultRouteResult>(this.routeName('result-page'), params);
-        if (this.isZh()) {
+        try {
+            const result = await NavigationManager.pushForResult<ResultRouteResult>(this.routeName('result-page'), params);
+            if (this.isZh()) {
+                this.lastResult = result
+                    ? `选择=${result.selection}，来源=${result.source}，已确认=${result.confirmed}`
+                    : '页面已返回，但没有携带结果。';
+                return;
+            }
             this.lastResult = result
-                ? `选择=${result.selection}，来源=${result.source}，已确认=${result.confirmed}`
-                : '页面已返回，但没有携带结果。';
-            return;
+                ? `selection=${result.selection}, source=${result.source}, confirmed=${result.confirmed}`
+                : 'The page returned without a result.';
+        } catch (_) {
+            this.lastResult = this.isZh() ? '导航失败，请稍后重试。' : 'Navigation failed. Please try again.';
         }
-        this.lastResult = result
-            ? `selection=${result.selection}, source=${result.source}, confirmed=${result.confirmed}`
-            : 'The page returned without a result.';
     }
 
     @Builder

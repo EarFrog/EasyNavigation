@@ -6,7 +6,7 @@ import {
     RoutePayload,
     RouteRecord,
     createRoute
-} from '@easy/navigation';
+} from '@erafrog/easynavigation';
 import { Home } from './Home';
 import { Detail } from './Detail';
 import { SecondDetail } from './SecondDetail';
@@ -160,7 +160,10 @@ const ZH_DETAIL_DESTINATION: EasyNavDestinationOptions = {
     onHidden: () => {
         console.info('EasyNavigation Demo: zh detail NavDestination onHidden');
     },
-    onBackPressed: () => false
+    onBackPressed: () => {
+        NavigationManager.pop();
+        return true;
+    }
 };
 
 const EN_DETAIL_DESTINATION: EasyNavDestinationOptions = {
@@ -178,7 +181,10 @@ const EN_DETAIL_DESTINATION: EasyNavDestinationOptions = {
     onHidden: () => {
         console.info('EasyNavigation Demo: en detail NavDestination onHidden');
     },
-    onBackPressed: () => false
+    onBackPressed: () => {
+        NavigationManager.pop();
+        return true;
+    }
 };
 
 const ZH_RESULT_DESTINATION: EasyNavDestinationOptions = {
@@ -190,7 +196,10 @@ const ZH_RESULT_DESTINATION: EasyNavDestinationOptions = {
     onReady: (_context: NavDestinationContext) => {
         console.info('EasyNavigation Demo: zh result dialog NavDestination onReady');
     },
-    onBackPressed: () => false
+    onBackPressed: () => {
+        NavigationManager.pop();
+        return true;
+    }
 };
 
 const EN_RESULT_DESTINATION: EasyNavDestinationOptions = {
@@ -202,7 +211,10 @@ const EN_RESULT_DESTINATION: EasyNavDestinationOptions = {
     onReady: (_context: NavDestinationContext) => {
         console.info('EasyNavigation Demo: en result dialog NavDestination onReady');
     },
-    onBackPressed: () => false
+    onBackPressed: () => {
+        NavigationManager.pop();
+        return true;
+    }
 };
 
 const APP_ROUTES: RouteRecord[] = [

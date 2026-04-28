@@ -1,4 +1,4 @@
-import { NavigationManager, RoutePayload } from '@easy/navigation';
+import { NavigationManager, RoutePayload } from '@erafrog/easynavigation';
 
 interface SecondDetailParams {
     id: string;
