@@ -6,6 +6,6 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "@easy/navigation": "file:../library"
+    "@erafrog/easynavigation": "file:../library"
   }
 }
